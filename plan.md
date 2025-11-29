@@ -41,4 +41,3 @@ From a feature perspective, I would extend support for **additional question typ
 
 On the frontend, I would improve the **UI/UX design**, add better validations, loading states, and accessibility improvements. I would also add **automated testing** using tools like RSpec for Rails and Jest for Next.js to ensure better reliability.
 
-Overall, with more time, this project could evolve from a basic quiz system into a fully production-ready platform with enhanced security, performance, and user experience.
