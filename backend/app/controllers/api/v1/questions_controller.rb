@@ -6,14 +6,21 @@ class Api::V1::QuestionsController < ApplicationController
   def create
     @question = @quiz.questions.build(question_params)
 
-    if @question.save
-      # Create options if provided
-      if params[:options].present?
-        params[:options].each do |option_params|
-          @question.options.create(option_params.permit(:content, :correct))
+    # Build options before saving so they're available during validation
+    if params[:options].present?
+      params[:options].each do |option_params|
+        permitted = option_params.permit(:content, :correct)
+        # Only build option if content is present and not empty
+        if permitted[:content].present? && permitted[:content].strip.present?
+          @question.options.build(
+            content: permitted[:content].strip,
+            correct: permitted[:correct] || false
+          )
         end
       end
+    end
 
+    if @question.save
       render json: @question, include: :options, status: :created
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
